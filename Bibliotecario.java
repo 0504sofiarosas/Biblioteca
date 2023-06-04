@@ -6,7 +6,7 @@ import java.io.Serializable;
  */
 public class Bibliotecario implements Serializable{
 
-    private int idbibliotecario;
+    private int id;
     private String nombre;
     private String primer_apellido;
     private String segundo_apellido;
@@ -16,7 +16,7 @@ public class Bibliotecario implements Serializable{
     private String nombre_biblioteca;
 
     public Bibliotecario(int idbibliotecario, String nombre, String primer_apellido, String segundo_apellido, String direccion_biblioteca, String nombre_biblioteca) {
-        this.idbibliotecario = idbibliotecario;
+        this.id = id;
         this.nombre = nombre;
         this.primer_apellido = primer_apellido;
         this.segundo_apellido = segundo_apellido;
@@ -30,7 +30,7 @@ public class Bibliotecario implements Serializable{
      * Regresa el identificador interno del bibliotecario.
      * @return El id del bibliotecario. 
      */
-    public int getIdbibliotecario() {
+    public int getId() {
         return id;
     }
 
