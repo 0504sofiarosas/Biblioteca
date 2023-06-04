@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
  * Clase para alamacenar la información de los prestamos.
@@ -7,21 +8,21 @@ import java.io.Serializable;
  */
 public class Prestamo implements Serializable {
 
-  private int idlibro;
-  private String fecha_prestamo;
-  private String fecha_devolucion;
+  private int id;
+  private LocalDate fecha_prestamo;
+  private LocalDate fecha_devolucion;
   private int prorroga;
 
   /**
    * Construye un objeto Préstamo con todos sus atributos.
    *
-   * @param idlibro El identificador interno del libro.
+   * @param id El identificador interno del libro.
    * @param fecha_prestamo La fecha en que se pidio el préstamo.
    * @param fecha_devolucion La fecha en que se devuelve el libro.   
    */
 
-  public Prestamo(int idlibro, String fecha_prestamo, String fecha_devolucion, int prorroga) {
-    this.idlibro = idlibro;
+  public Prestamo(int id, LocalDate fecha_prestamo, LocalDate fecha_devolucion, int prorroga) {
+    this.id = id;
     this.fecha_prestamo = fecha_prestamo;
     this.fecha_devolucion = fecha_devolucion;
     this.prorroga = prorroga;
@@ -32,8 +33,8 @@ public class Prestamo implements Serializable {
    *
    * @return El id del libro.
    */
-  public int getIdlibro() {
-    return idlibro;
+  public int getId() {
+    return id;
   }
 
   /**
@@ -41,7 +42,7 @@ public class Prestamo implements Serializable {
    *
    * @return La fecha del préstamo.
    */
-  public String getFecha_prestamo() {
+  public LocalDate getFecha_prestamo() {
     return fecha_prestamo;
   }
 
@@ -50,7 +51,7 @@ public class Prestamo implements Serializable {
    *
    * @return La fecha del termino del préstamo.
    */
-  public String getFecha_devolucion() {
+  public LocalDate getFecha_devolucion() {
     return fecha_devolucion;
   }
 
@@ -67,7 +68,7 @@ public class Prestamo implements Serializable {
    * Muestra la información del préstamo.
    */
   public void muestra_prestamo() {
-    System.out.println(String.format("\t\tId del libro:          %07d", idlibro));
+    System.out.println(String.format("\t\tId del libro:          %07d", id));
     System.out.println(String.format("\t\tFecha del prestamo:       %s", fecha_prestamo));
     System.out.println(String.format("\t\tFecha de la devolución:      %s", fecha_devolucion));
     System.out.println(String.format("\t\tProrroga: %s", prorroga));
