@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class Usuario implements Serializable {
   
-  private int idusuario;
+  private int id;
   private String nombre;
   private String primer_apellido;
   private String segundo_apellido;
@@ -19,7 +19,7 @@ public class Usuario implements Serializable {
   /**
    * Construye un objeto usuario con los datos del dueño.
    *
-   * @param idusuario El identificador del usuario.
+   * @param id El identificador del usuario.
    * @param nombre Nombre del usuario.
    * @param primer_apellido Primer apellido del usuario.
    * @param segundo_apellido Segundo apellido del usuario.
@@ -27,9 +27,9 @@ public class Usuario implements Serializable {
    * @param telefono Teléfono para comunicarse con el usuario.
    * @param correo_electronico Correo electrónico del usuario.
    */
-  public Usuario(int idusuario, String nombre, String primer_apellido, String segundo_apellido, String direccion, String telefono, String correo_electronico){
+  public Usuario(int id, String nombre, String primer_apellido, String segundo_apellido, String direccion, String telefono, String correo_electronico){
 
-    this.idusuario = idusuario;
+    this.id = id;
     this.nombre = nombre;
     this.primer_apellido = primer_apellido;
     this.segundo_apellido = segundo_apellido;
@@ -44,8 +44,8 @@ public class Usuario implements Serializable {
    *
    * @return El id del usuario.
    */
-  public int getIdusuario() {
-    return idusuario;
+  public int getId() {
+    return id;
   }
 
   /**
@@ -152,16 +152,16 @@ public class Usuario implements Serializable {
    *
    * @return La lista de libros del usuario.
    */
-  public Libro[] getLibros() {
-    return libros;
-  }
+  //public Libro[] getLibros() {
+   // return libros;
+  //}
   
   /* Método auxiliar encargado de contar el total de libros del usuario. */
   private int cuenta_libros() {
     int count = 0;  // Variable que servirá de contador.
  // REVISAR PARA VER SI NO FALTA UNA CONDICIÓN EN EL CONTADOR.
     for(int i = 0; i < libros.length; i++) {
-      if(libros[i] != null) // Si encontramos un libro que no es null aumenta el contador
+      if(libros[i] != null) // Si encontramos un li bro que no es null aumenta el contador
         count++;
     }
     
