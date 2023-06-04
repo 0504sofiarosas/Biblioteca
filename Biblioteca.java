@@ -23,6 +23,7 @@ public class Biblioteca implements Serializable {
 	private Bibliotecario[] bibliotecarios;
 	private Usuario[] usuarios;
 	private Libro[] libros;
+  private Prestamo[] prestamos;
 
    /**
    	* Construye un objeto Biblioteca con todas las acciones que pueden realizar los
@@ -32,6 +33,7 @@ public class Biblioteca implements Serializable {
   	this.bibliotecarios = new Bibliotecario[4];
   	this.usuarios = new Usuario[100];
   	this.libros = new Libro[100];
+    
   }
 
   /**
@@ -59,6 +61,15 @@ public class Biblioteca implements Serializable {
    */
   public Libro[] getLibros() {
     return libros;
+  }
+
+  /**
+   * Regresa la lista de los préstamos.
+   *
+   * @return
+   */
+  public Prestamo[] getPrestamos() {
+    return prestamos;
   }
 
   /*
@@ -161,6 +172,23 @@ public class Biblioteca implements Serializable {
 
     for (int i = 0; i < libros.length; i++) { // Recorre el arreglo de libros del usuario
       if (libros[i] == null) {  // Si es null es un espacio disponible.
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
+  /*
+    Método auxiliar encargado de buscar un espacio vacio dentro del arreglo de 
+    prestámos del usuario dado.
+   */
+  private int prestamos_busca_espacio() {
+
+    Prestamo[] prestamos = getPrestamos();
+
+    for (int i = 0; i < prestamos.length; i++) { // Recorre el arreglo de prestamos del usuario
+      if (prestamos[i] == null) {  // Si es null es un espacio disponible.
         return i;
       }
     }
@@ -373,8 +401,78 @@ public class Biblioteca implements Serializable {
     }
   }
 
+/**
+   * Agenda una cita para una mascota.
+   *
+   * @param id El identificador del propietario, dueño de la mascota.
+   */
+  public void agregar_prestamo() {
+    Scanner teclado = new Scanner(System.in);
+    System.out.print("\n\nIngresa el ID del usuario:");
+      int idu = Integer.parseInt(teclado.nextLine());
+    System.out.print("\n\nIngresa el ID del libro:");
+        int idl = Integer.parseInt(teclado.nextLine());
+  
+    try {
+      int index_usuario = busca_usuario(idu);
+      int index_prestamo = prestamos_busca_espacio();
+      int index_libros = libros_busca_espacio();
+      int index_libro = busca_libro(idl);
 
+      if (index_usuario == -1) {
+      System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+      System.out.println("ERROR: El usuario no existe.");
+      System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
+    } else 
+        Usuario u = usuarios[index_usuario];
+      
+      if (index_libro == -1) {  // Revisa si existe esa mascota.
+        System.out.println("Error: No existe mascota con ese nombre");
+      } else {
+        Libro l = u.getLibros()[index_libro];
 
+       // Biblioteca c = new Biblioteca();
+
+        // Tomamos los datos de la cita
+        System.out.print("Fecha del prestamo (aaaa-mm-dd):           ");
+        /* IMPORTANTE: La fecha ingresada debe estar en formato yyyy-MM-dd */
+        String fchp = da_formato(teclado.nextLine());
+        // Toma la fecha en forma de cadena y lo convierte a un objeto de tipo
+        // LocalDate.
+        DateTimeFormatter formatterp = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate fecha_prestamo = LocalDate.parse(fchp, formatterp);
+
+        System.out.print("Fecha de devolucion (aaaa-mm-dd):           ");
+        String fchd = da_formato(teclado.nextLine());
+        DateTimeFormatter formatterd = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate fecha_devolucion = LocalDate.parse(fchd, formatterd);
+
+        System.out.print("Numero de dias de prorroga:           ");
+        int prorroga = Integer.parseInt(teclado.nextLine());
+
+        // Creamos el registro de la prorroga
+        Prestamo nuevo_prestamo = new Prestamo(idl, fecha_prestamo, fecha_devolucion, prorroga);
+        
+        // Se agrega al arreglo correspondiente.
+        prestamos[index_prestamo] = nuevo_prestamo;
+
+        // Muestra la información que se registro.
+        System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+        System.out.println("INFO: Registro creado exitosamente.");
+        System.out.println(String.format("%050d", 0).replace("0", "-"));
+        nuevo_prestamo.muestra_prestamo();
+        System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
+        
+        guardar();  // Guardamos los cambios en el sistema.
+      }
+
+    }catch (Exception e){
+      // En caso de error muestra un mensaje en lugar de terminar el programa.
+      System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+      System.out.println("ERROR: Ha ocurrido un error inesperado. Vuelve a intentarlo más tarde.");
+      System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
+    }
+  }
 
 
 
