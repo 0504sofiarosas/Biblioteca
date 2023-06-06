@@ -25,7 +25,7 @@ public class Libro implements Serializable {
    * @param no_ejemplares El número de ejemplares del libro. 
    */
 
-    public Libro (String titulo, String autor, String editorial, int no_paginas, int id, int no_ejemplares) {
+    public Libro (int id, String titulo, String autor, String editorial, int no_paginas,  int no_ejemplares) {
     this.titulo = titulo;
     this.autor = autor;
     this.editorial = editorial;
@@ -87,6 +87,22 @@ public class Libro implements Serializable {
    public int getNo_ejemplares(){
     return no_ejemplares;
    }
+
+   public void setNo_ejemplares(int no_ejemplares) {
+    this.no_ejemplares = no_ejemplares;
+   }
+
+  // Reducir el numero de ejemplares por prestamo
+
+  public void reducir_ejemplares_prestamo(int no_ejemplares) {
+    this.no_ejemplares = no_ejemplares - 1;
+  }
+
+  // Aumentar el numero de ejemplares por devolucion
+
+  public void aumentar_ejemplares_prestamo(int no_ejemplares) {
+    this.no_ejemplares = no_ejemplares + 1;
+  }
    
    /**
    * Muestra la información del libro.

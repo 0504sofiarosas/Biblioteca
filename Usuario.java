@@ -15,6 +15,9 @@ public class Usuario implements Serializable {
   private String telefono;
   private String correo_electronico;
   private Libro[] libros;
+  private Prestamo[] prestamos;
+  private String contrasena;
+  private String user;
 
   /**
    * Construye un objeto usuario con los datos del dueño.
@@ -27,7 +30,7 @@ public class Usuario implements Serializable {
    * @param telefono Teléfono para comunicarse con el usuario.
    * @param correo_electronico Correo electrónico del usuario.
    */
-  public Usuario(int id, String nombre, String primer_apellido, String segundo_apellido, String direccion, String telefono, String correo_electronico){
+  public Usuario(int id_usuario, String nombre, String primer_apellido, String segundo_apellido, String user, String direccion, String telefono, String correo_electronico){
 
     this.id = id;
     this.nombre = nombre;
@@ -37,6 +40,9 @@ public class Usuario implements Serializable {
     this.telefono = telefono;
     this.correo_electronico = correo_electronico;
     this.libros = new Libro[3];
+    this.prestamos = new Prestamo[3];
+    this.contrasena = contrasena;
+    this.user = user;
   }
 
   /**
@@ -147,6 +153,26 @@ public class Usuario implements Serializable {
     return correo_electronico;
   }
 
+  public void setCorreo_electronico(String correo_electronico) {
+    this.correo_electronico = correo_electronico;
+  }
+
+  public Prestamo[] getPrestamos() {
+    return prestamos;
+  }
+
+  public String getContrasena() {
+    return contrasena;
+  }
+
+  public String getUser() {
+    return user;
+  }
+
+  public void setUser(String user) {
+    this.user = user;
+  }
+
   /**
    * Regresa la lista de libros que el usuario pidió prestados.
    *
@@ -174,6 +200,7 @@ public class Usuario implements Serializable {
   public void muestra_usuario_con_libros() {
     System.out.println(String.format("Id:        %07d", id));
     System.out.println(String.format("Nombre:    %s", nombre + " " + primer_apellido + " " + segundo_apellido));
+    System.out.println(String.format("Nombre de usuario:  %s", user));
     System.out.println(String.format("Dirección: %s", direccion));
     System.out.println(String.format("Tel. Prin: %s", telefono));
     System.out.println(String.format("Correo:    %s", correo_electronico));
@@ -185,5 +212,15 @@ public class Usuario implements Serializable {
         libros[i].muestra_libro();
       }
     }
+  }
+
+  public void muestra_usuario_sin_libros() {
+    System.out.println(String.format("Id:        %07d", id));
+    System.out.println(String.format("Nombre:    %s", nombre + " " + primer_apellido + " " + segundo_apellido));
+    System.out.println(String.format("Nombre de usuario:  %s", user));
+    System.out.println(String.format("Dirección: %s", direccion));
+    System.out.println(String.format("Tel. Prin: %s", telefono));
+    System.out.println(String.format("Correo:    %s", correo_electronico));
+    
   }
 }

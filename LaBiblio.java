@@ -45,6 +45,7 @@ public class LaBiblio {
             op = Integer.parseInt(teclado.nextLine());
 
             switch (op) {
+
             case 0:
                 System.out.print("\n\nSeguro que quiere salir? (Y/N): ");
                 char exit = teclado.nextLine().toUpperCase().charAt(0);
@@ -54,7 +55,18 @@ public class LaBiblio {
                     op = -1;
                   }
                   break;
+
             case 1:
+
+            System.out.println("Ingresa tu nombre de usuario:");
+            String nombre_usu = teclado.nextLine();
+            System.out.println("Ingresa tu contrasena:");
+            String contra_usu = teclado.nextLine();
+            if (c.verificar_contrasena_biblio(nombre_usu, contra_usu) == -1) {
+                System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+                System.out.println("ERROR. Contrasena o Nombre de usuario incorrectos.");
+                System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
+            } else {
                 System.out.println("\n\nQue accion quieres realizar? \n");
                 System.out.println("  1. Agregar un nuevo libro");
                 System.out.println("  2. Dar de baja un libro");
@@ -68,31 +80,51 @@ public class LaBiblio {
                 op = Integer.parseInt(teclado.nextLine());
 
                 switch (op) {
+
                     case 0:
                         op = -1;
                         break;
+
                     case 1:
                         c.agregar_libro();
                         break;
+
                     case 2:
-                        System.out.print("\n\nIngresa el ID del libro:");
-                        id = Integer.parseInt(teclado.nextLine());
-                        c.eliminar_libro(id);
+                        System.out.println("\n\nElige una opcion: \n");
+                        System.out.println("  1.Eliminar por ID");
+                        System.out.println("  2.Eliminar por titulo del libro\n\n");
+                        System.out.println("Elige una opcion (1-2): ");
+                        int el_li = Integer.parseInt(teclado.nextLine());
+                        if (el_li == 1) {
+                            System.out.print("\n\nIngresa el ID del libro:");
+                            id = teclado.nextInt();
+                            c.eliminar_libro(id);
+                        } else if (el_li == 2) {
+                            System.out.println("\n\nIngresa el titulo del libro:");
+                            String titulo = teclado.nextLine();
+                            c.eliminar_libro(titulo);
+                        }
                         break;
+
                     case 3:
-                        c.existencia_libros();
+                        c.muestra_todos_libros();
                         break;
+
                     case 4:
                         System.out.print("\n\nIngresa el ID del libro:");
                         id = Integer.parseInt(teclado.nextLine());
-                        c.mostrar_usuario_con_libros();
+                        //c.mostrar_usuario_con_libros();
                         break;
+
                     case 5:
                         //c.muestra_prestamo();
                         break;
+
                     case 6:
                         break;
                 }
+                
+            }
                 break;
             case 2:
                 System.out.println("\n\nQue accion quieres realizar? \n");
@@ -107,7 +139,7 @@ public class LaBiblio {
 
                 switch (op) {
                     case 1:
-                       c.existencia_libros();
+                       //c.existencia_libros();
                         break;
                     case 2:
 

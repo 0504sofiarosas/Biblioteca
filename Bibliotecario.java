@@ -14,8 +14,10 @@ public class Bibliotecario implements Serializable{
     private String correo_electronico;
     private String direccion_biblioteca;
     private String nombre_biblioteca;
+    private String contrasena;
+    private String user;
 
-    public Bibliotecario(int idbibliotecario, String nombre, String primer_apellido, String segundo_apellido, String direccion_biblioteca, String nombre_biblioteca) {
+    public Bibliotecario(int idbibliotecario, String nombre, String primer_apellido, String segundo_apellido, String user, String direccion_biblioteca, String telefono, String correo_electronico, String contrasena) {
         this.id = id;
         this.nombre = nombre;
         this.primer_apellido = primer_apellido;
@@ -24,6 +26,8 @@ public class Bibliotecario implements Serializable{
         this.correo_electronico = correo_electronico;
         this.direccion_biblioteca = direccion_biblioteca;
         this.nombre_biblioteca = nombre_biblioteca;
+        this.contrasena = contrasena;
+        this.user = user;
     }
     
     /**
@@ -116,6 +120,22 @@ public class Bibliotecario implements Serializable{
     public String getDireccion_Biblioteca() {
         return direccion_biblioteca;
     }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;    
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
     
     /**
      * Actualiza la dirección de la biblioteca.
@@ -139,6 +159,15 @@ public class Bibliotecario implements Serializable{
      */
     public void setNombre_biblioteca(String nombre_biblioteca) {
         this.nombre_biblioteca = nombre_biblioteca;
+    }
+
+    // Muestra la informacion de los bibliotecarios
+    public void muestra_bibliotecarios() {
+        System.out.println(String.format("Id:     %07d", id));
+        System.out.println(String.format("Nombre:  %s", nombre + " " + primer_apellido + " " + segundo_apellido));
+        System.out.println(String.format("Nombre de usuarios:  %s", user));
+        System.out.println(String.format("Telefono:  %s", telefono));
+        System.out.println(String.format("Correo:  %s", correo_electronico));
     }
 
 }
