@@ -107,7 +107,7 @@ public class Prestamo implements Serializable {
 		}
 	}
 
-  public void eliminar_prestamo(int id_usuario, String titulo_libro) {
+  /*public void eliminar_prestamo(int id_usuario, String titulo_libro) {
     int index = buscar_prestamo(id_usuario, titulo_libro);
     
     if (index == -1) {
@@ -124,7 +124,7 @@ public class Prestamo implements Serializable {
 
       guardar();
     }
-  }
+  }*/
 
   /**
    * Muestra la información del préstamo.
