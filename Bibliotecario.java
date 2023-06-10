@@ -17,7 +17,7 @@ public class Bibliotecario implements Serializable{
     private String contrasena;
     private String user;
 
-    public Bibliotecario(int idbibliotecario, String nombre, String primer_apellido, String segundo_apellido, String user, String direccion_biblioteca, String telefono, String correo_electronico, String contrasena) {
+    public Bibliotecario(int id, String nombre, String primer_apellido, String segundo_apellido, String user, String direccion_biblioteca, String telefono, String correo_electronico, String contrasena) {
         this.id = id;
         this.nombre = nombre;
         this.primer_apellido = primer_apellido;

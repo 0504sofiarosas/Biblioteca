@@ -166,7 +166,11 @@ public class LaBiblio {
                        c.agregar_prestamo(id_libro);
                         break;
                     case 3:
-
+                        System.out.println("Ingrese el ID del usuario.");
+                        int id_usuario = teclado.nextInt();
+                        System.out.println("Ingrese el titulo del libro a devolver.");
+                        String titulo_libro = teclado.next();
+                        c.devolucion(id_usuario, titulo_libro);
                         break;
                     case 4:
 

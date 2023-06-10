@@ -7,7 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Random;
 import java.util.Scanner;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class Biblioteca implements Serializable {
 	
@@ -415,7 +415,7 @@ public class Biblioteca implements Serializable {
 
 	// Actualiza el telefono del usuario
 
-	public void actualizar_telefono_usuario(int idusuario, String telefono_usuario) {
+	/*public void actualizar_telefono_usuario(int idusuario, String telefono_usuario) {
 		int index = buscar_usuario(idusuario);
 		if (index == -1) {
 			System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
@@ -428,11 +428,11 @@ public class Biblioteca implements Serializable {
 			System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
 			guardar();
 		}
-	}
+	}*/
 
 	// Actualiza el correo del usuario
 
-	public void actualizar_correo_usuario(int idusuario, String correo_usuario) {
+	/*public void actualizar_correo_usuario(int idusuario, String correo_usuario) {
 		int index = buscar_usuario(idusuario);
 		if (index == -1) {
 			System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
@@ -445,7 +445,7 @@ public class Biblioteca implements Serializable {
 			System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
 			guardar();
 		}
-	}
+	}*/
 
 	//====================== Libros ============================== //
 
@@ -614,8 +614,8 @@ public class Biblioteca implements Serializable {
 				    System.out.println("ERROR. Este libro no existe");
 				    System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
 			    } else {
-				    LocalDateTime prestamo = LocalDateTime.now();
-				    LocalDateTime devolucion = prestamo.plusDays(5);
+				    LocalDate prestamo = LocalDate.now();
+				    LocalDate devolucion = prestamo.plusDays(5);
 				    int id_libro = libros[index_libro].getId();
 				    String titulo_libro = libros[index_libro].getTitulo();
 				    String user_usu = usuarios[index_usuario].getUser();
@@ -626,6 +626,57 @@ public class Biblioteca implements Serializable {
 			}
 		}
 	}
+
+public int buscar_prestamo (int id_usuario, String titulo_libro) {
+		for (int i = 0; i < prestamos.length; i++) {
+			if (prestamos[i] != null && prestamos[i].getTitulo().equals(titulo_libro) && prestamos[i].getId() == id_usuario) {
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+		public void devolucion (int id_usuario, String titulo_libro) {
+		int index_usuario = buscar_usuario(id_usuario);
+		Scanner teclado = new Scanner(System.in);
+
+		if (index_usuario == -1) {
+			System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+			System.out.println("ERROR. El usuario no existe");
+			System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
+		} else {
+			int index_libro = buscar_libro(titulo_libro);
+		if (index_libro == -1) {
+			System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+			System.out.println("ERROR. Este libro no existe");
+			System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
+		} else {
+			int index_registro = buscar_prestamo(id_usuario, da_formato(titulo_libro));
+		if (index_registro == -1) {
+			System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+			System.out.println("ERROR. No se encontró el registro del préstamo.");
+			System.out.println(String.format("%050\n\n", 0).replace("0", "-"));
+		} else {
+			Usuario s = usuarios[index_usuario];
+			int index_prestamo = usuarios[index_usuario].prestamo_espacio_usuario();
+			    
+			    System.out.println("Ingresa el titulo del libro que se desea devolver");
+			    String titulo_libro_devolucion = da_formato(teclado.nextLine());
+			    LocalDate fecha_registro = prestamos[index_registro].getFecha_devolucion();
+			    LocalDate fecha_devolucion = LocalDate.now();
+			    if ((fecha_registro.isEqual(fecha_devolucion) || fecha_devolucion.isBefore(fecha_registro)) && prestamos[index_prestamo] != null) {
+			    	libros[index_libro].aumentar_ejemplares_devolucion();
+			    	//prestamos[index_prestamo].eliminar_prestamo();
+
+			    	System.out.println("Se ha completado la devolucion exitosamente.");
+
+			    	guardar();
+			    }
+			}	    
+		}
+	}
+}
 
 	// Reporte de existencia 
 
@@ -659,7 +710,7 @@ public class Biblioteca implements Serializable {
 
 	public void reporte_prestamos() {
 		System.out.println(String.format("%090d", 0).replace("0", "-"));
-		System.out.println(String.format("\n%-7s | %-20s | %-50s | %-10s | %-10s", "Id libro", "Usuario", "Titulo", "Fecha de prestamo", "Fecha de devolucion"));
+		System.out.println(String.format("\n%-20s | %07d | %-50s | %-10s | %-10s", "Usuario", "Id libro", "Titulo", "Fecha de prestamo", "Fecha de devolucion"));
 		System.out.println(String.format("%090d", 0).replace("0", "-"));
 		for (int i = 0; i < usuarios.length; i++) {
 			if (usuarios[i] != null) {

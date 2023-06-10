@@ -38,7 +38,7 @@ public class Usuario implements Serializable {
    * @param telefono Teléfono para comunicarse con el usuario.
    * @param correo_electronico Correo electrónico del usuario.
    */
-  public Usuario(int id_usuario, String nombre, String primer_apellido, String segundo_apellido, String user, String direccion, String telefono, String correo_electronico, String contrasena){
+  public Usuario(int id, String nombre, String primer_apellido, String segundo_apellido, String user, String direccion, String telefono, String correo_electronico, String contrasena){
 
     this.id = id;
     this.nombre = nombre;
@@ -130,9 +130,9 @@ public class Usuario implements Serializable {
    *
    * @param direccion La dirección del usuario.
    */
-  public void setDireccion(String direccion) {
+  /*public void setDireccion(String direccion) {
     this.direccion = direccion;
-  }
+  }*/
 
   /**
    * Regresa el teléfono de contacto del usuario.
@@ -148,9 +148,9 @@ public class Usuario implements Serializable {
    *
    * @param telefono El teléfono del usuario.
    */
-  public void setTelefono(String telefono) {
+  /*public void setTelefono(String telefono) {
     this.telefono = telefono;
-  }
+  }*/
 
   /**
    * Regresa el correo electrónico del usuario.
@@ -161,9 +161,9 @@ public class Usuario implements Serializable {
     return correo_electronico;
   }
 
-  public void setCorreo_electronico(String correo_electronico) {
+  /*public void setCorreo_electronico(String correo_electronico) {
     this.correo_electronico = correo_electronico;
-  }
+  }*/
 
   public Prestamo[] getPrestamos() {
     return prestamos;
@@ -312,24 +312,11 @@ public class Usuario implements Serializable {
     }
   }
 
-  /*public void reporte_prestamos() {
+  public void reporte_prestamos() {
     System.out.println(String.format("\n%050d", 0).replace("0","-"));
     for (int i = 0; i < prestamos.length; i++) {
       if (prestamos[i] != null) {
         prestamos[i].reporte_prestamos();
-      }
-    }
-  }*/
-
-  public void reporte_prestamos() {
-    for (int i = 0; i < prestamos.length; i++) {
-      if (prestamos[i] != null) {
-        String usuario = prestamos[i].getUsuario();
-        int id = prestamos[i].getId();
-        String titulo = prestamos[i].getTitulo();
-        LocalDateTime fecha_prestamo = prestamos[i].getFecha_prestamo();
-        LocalDateTime fecha_devolucion = prestamos[i].getFecha_devolucion();
-        System.out.println(String.format("%07d | %-20s | %-50s | %-10s | %-10s", id, usuario, titulo, fecha_prestamo, fecha_devolucion));
       }
     }
   }

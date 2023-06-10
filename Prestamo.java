@@ -1,5 +1,5 @@
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * Clase para alamacenar la información de los prestamos.
@@ -11,8 +11,8 @@ public class Prestamo implements Serializable {
   private int id;
   private String usuario;
   private String titulo;
-  private LocalDateTime fecha_prestamo;
-  private LocalDateTime fecha_devolucion;
+  private LocalDate fecha_prestamo;
+  private LocalDate fecha_devolucion;
   private int prorroga;
 
   /**
@@ -23,7 +23,7 @@ public class Prestamo implements Serializable {
    * @param fecha_devolucion La fecha en que se devuelve el libro.   
    */
 
-  public Prestamo(String usuario, int id, String titulo, LocalDateTime fecha_prestamo, LocalDateTime fecha_devolucion) {
+  public Prestamo(String usuario, int id, String titulo, LocalDate fecha_prestamo, LocalDate fecha_devolucion) {
     this.id = id;
     this.usuario = usuario;
     this.titulo = titulo;
@@ -58,7 +58,7 @@ public class Prestamo implements Serializable {
    *
    * @return La fecha del préstamo.
    */
-  public LocalDateTime getFecha_prestamo() {
+  public LocalDate getFecha_prestamo() {
     return fecha_prestamo;
   }
 
@@ -67,7 +67,7 @@ public class Prestamo implements Serializable {
    *
    * @return La fecha del termino del préstamo.
    */
-  public LocalDateTime getFecha_devolucion() {
+  public LocalDate getFecha_devolucion() {
     return fecha_devolucion;
   }
 
@@ -78,6 +78,25 @@ public class Prestamo implements Serializable {
    */
   public int getProrroga() {
     return prorroga;
+  }
+
+  public void eliminar_prestamo(int id_usuario, String titulo_libro) {
+    int index = buscar_prestamo(id_usuario, titulo_libro);
+    
+    if (index == -1) {
+      System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+      System.out.println("ERROR. No se encontró el registro del préstamo.");
+      System.out.println(String.format("%050\n\n", 0).replace("0", "-"));
+    } else {
+      int index_usuario = buscar_usuario(id_usuario);
+      int index_prestamo = usuarios[index_usuario].prestamo_espacio_usuario();
+      prestamos[index_prestamo] = null;
+      System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+      System.out.println("Tienes disponible el espacio para un prestamo");
+      System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+
+      guardar();
+    }
   }
 
   /**
