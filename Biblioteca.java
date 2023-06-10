@@ -413,40 +413,6 @@ public class Biblioteca implements Serializable {
 		}
 	}
 
-	// Actualiza el telefono del usuario
-
-	/*public void actualizar_telefono_usuario(int idusuario, String telefono_usuario) {
-		int index = buscar_usuario(idusuario);
-		if (index == -1) {
-			System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
-			System.out.println("ERROR. El usuario no existe");
-			System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
-		} else {
-			usuarios[index].setTelefono(telefono_usuario);
-			System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
-			System.out.println("El telefono se ha actualizado");
-			System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
-			guardar();
-		}
-	}*/
-
-	// Actualiza el correo del usuario
-
-	/*public void actualizar_correo_usuario(int idusuario, String correo_usuario) {
-		int index = buscar_usuario(idusuario);
-		if (index == -1) {
-			System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
-			System.out.println("ERROR. El usuario no existe");
-			System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
-		} else {
-			usuarios[index].setCorreo_electronico(correo_usuario);
-			System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
-			System.out.println("El correo ha sido actualizado");
-			System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
-			guardar();
-		}
-	}*/
-
 	//====================== Libros ============================== //
 
 	// Buscar un espacio en libros
