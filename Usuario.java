@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Scanner;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * Clase para alamacenar la información de los usuarios.
@@ -292,8 +292,8 @@ public class Usuario implements Serializable {
         System.out.println("ERROR. No hay prestamos disponibles");
         System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
       } else {
-        LocalDateTime prestamo = LocalDateTime.now();
-        LocalDateTime devolucion = prestamo.plusDays(5);
+        LocalDate prestamo = LocalDate.now();
+        LocalDate devolucion = prestamo.plusDays(5);
 
         Prestamo nuevo_prestamo = new Prestamo(usuario, id, titulo, prestamo, devolucion);
         prestamos[index] = nuevo_prestamo;
@@ -311,7 +311,6 @@ public class Usuario implements Serializable {
       System.out.println(String.format("%050\n\n", 0).replace("0", "-"));
     }
   }
-
   public void reporte_prestamos() {
     System.out.println(String.format("\n%050d", 0).replace("0","-"));
     for (int i = 0; i < prestamos.length; i++) {
