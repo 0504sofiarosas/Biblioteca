@@ -169,7 +169,7 @@ public class LaBiblio {
                         System.out.println("Ingrese el ID del usuario.");
                         int id_usuario = teclado.nextInt();
                         System.out.println("Ingrese el titulo del libro a devolver.");
-                        String titulo_libro = teclado.next();
+                        String titulo_libro = teclado.next().toUpperCase();
                         c.devolucion(id_usuario, titulo_libro);
                         break;
                     case 4:

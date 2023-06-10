@@ -1,5 +1,9 @@
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Clase para alamacenar la información de los prestamos.
@@ -62,6 +66,7 @@ public class Prestamo implements Serializable {
     return fecha_prestamo;
   }
 
+
   /**
    * Regresa la fecha de cuando se termina el préstamo.
    *
@@ -107,24 +112,7 @@ public class Prestamo implements Serializable {
 		}
 	}
 
-  /*public void eliminar_prestamo(int id_usuario, String titulo_libro) {
-    int index = buscar_prestamo(id_usuario, titulo_libro);
-    
-    if (index == -1) {
-      System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
-      System.out.println("ERROR. No se encontró el registro del préstamo.");
-      System.out.println(String.format("%050\n\n", 0).replace("0", "-"));
-    } else {
-      int index_usuario = buscar_usuario(id_usuario);
-      int index_prestamo = usuarios[index_usuario].prestamo_espacio_usuario();
-      prestamos[index_prestamo] = null;
-      System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
-      System.out.println("Tienes disponible el espacio para un prestamo");
-      System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
 
-      guardar();
-    }
-  }*/
 
   /**
    * Muestra la información del préstamo.
@@ -138,9 +126,7 @@ public class Prestamo implements Serializable {
     
   }
 
-  public void reporte_prestamos() {
-    System.out.println(String.format("%-20s | %07d | %-50s | %-10s | %-10s", usuario, id, titulo, fecha_prestamo, fecha_devolucion));
-  }
+  
 
 
 }

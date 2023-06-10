@@ -593,18 +593,8 @@ public class Biblioteca implements Serializable {
 		}
 	}
 
-public int buscar_prestamo (int id, String titulo_libro) {
-		for (int i = 0; i < prestamos.length; i++) {
-			if (prestamos[i] != null && prestamos[i].getTitulo().equals(titulo_libro) && prestamos[i].getId() == id) {
-				return i;
-			}
-		}
-
-		return -1;
-	}
-
-		public void devolucion (int id, String titulo_libro) {
-		int index_usuario = buscar_usuario(id);
+		public void devolucion (int id_usuario, String titulo_libro) {
+		int index_usuario = buscar_usuario(id_usuario);
 		Scanner teclado = new Scanner(System.in);
 
 		if (index_usuario == -1) {
@@ -618,22 +608,21 @@ public int buscar_prestamo (int id, String titulo_libro) {
 			System.out.println("ERROR. Este libro no existe");
 			System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
 		} else {
-			int index_registro = buscar_prestamo(id, da_formato(titulo_libro));
+			int index_registro = usuarios[index_usuario].buscar_prestamo(usuarios[index_usuario].getUser(), da_formato(titulo_libro));
 		if (index_registro == -1) {
 			System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
-			System.out.println("ERROR. No se encontró el registro del préstamo.");
-			System.out.println(String.format("%050\n\n", 0).replace("0", "-"));
+			System.out.println("ERROR. No se encontro el registro del prestamo.");
+			System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
 		} else {
-			Usuario s = usuarios[index_usuario];
-			int index_prestamo = usuarios[index_usuario].prestamo_espacio_usuario();
+			//Usuario s = usuarios[index_usuario];
+			//int index_prestamo = s.buscar_prestamo(usuarios[index_usuario].getUser(), da_formato(titulo_libro));
 			    
-			    System.out.println("Ingresa el titulo del libro que se desea devolver");
-			    String titulo_libro_devolucion = da_formato(teclado.nextLine());
 			    LocalDate fecha_registro = prestamos[index_registro].getFecha_devolucion();
 			    LocalDate fecha_devolucion = LocalDate.now();
-			    if ((fecha_registro.isEqual(fecha_devolucion) || fecha_devolucion.isBefore(fecha_registro)) && prestamos[index_prestamo] != null) {
+			    if ((fecha_registro.isEqual(fecha_devolucion) || fecha_devolucion.isBefore(fecha_registro)) && prestamos[index_registro] != null) {
 			    	libros[index_libro].aumentar_ejemplares_devolucion();
 			    	//prestamos[index_prestamo].eliminar_prestamo();
+			    	prestamos[index_registro] = null;
 
 			    	System.out.println("Se ha completado la devolucion exitosamente.");
 
@@ -676,7 +665,7 @@ public int buscar_prestamo (int id, String titulo_libro) {
 
 	public void reporte_prestamos() {
 		System.out.println(String.format("%090d", 0).replace("0", "-"));
-		System.out.println(String.format("\n%-20s | %07d | %-50s | %-10s | %-10s", "Usuario", "Id libro", "Titulo", "Fecha de prestamo", "Fecha de devolucion"));
+		System.out.println(String.format("\n%-7s | %-20s | %-50s | %-10s | %-10s", "Id libro", "Usuario", "Titulo", "Fecha de prestamo", "Fecha de devolucion"));
 		System.out.println(String.format("%090d", 0).replace("0", "-"));
 		for (int i = 0; i < usuarios.length; i++) {
 			if (usuarios[i] != null) {
@@ -685,5 +674,25 @@ public int buscar_prestamo (int id, String titulo_libro) {
 			}
 		}
 	}
+
+	/*public void eliminar_prestamo(int id_usuario, String titulo_libro) {
+	int index_usu = buscar_usuario(id_usuario);	
+    int index = usuarios[index_usu].buscar_prestamo(id_usuario, titulo_libro);
+    
+    if (index == -1) {
+      System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+      System.out.println("ERROR. No se encontró el registro del préstamo.");
+      System.out.println(String.format("%050\n\n", 0).replace("0", "-"));
+    } else {
+      int index_usuario = buscar_usuario(id_usuario);
+      int index_prestamo = usuarios[index_usuario].buscar_prestamo(id_usuario, da_formato(titulo_libro));
+      prestamos[index_prestamo] = null;
+      System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+      System.out.println("Tienes disponible el espacio para un prestamo");
+      System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+
+      guardar();
+    }
+  }*/
 	
 }
