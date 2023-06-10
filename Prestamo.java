@@ -79,6 +79,33 @@ public class Prestamo implements Serializable {
   public int getProrroga() {
     return prorroga;
   }
+  
+  private void guardar() {
+		FileOutputStream pres = null;
+		ObjectOutputStream retor = null;
+
+		try {
+			pres = new FileOutputStream("labiblio.dat", false);
+			retor = new ObjectOutputStream (pres);
+
+			retor.writeObject(this);
+		} catch (FileNotFoundException fnfe) {
+			System.out.println(fnfe.getMessage());
+		} catch (IOException ioe) {
+			System.out.println(ioe.getMessage());
+		} finally {
+			try {
+				if (pres != null) {
+					pres.close();
+				}
+				if (retor != null) {
+					retor.close();
+				}
+			} catch (IOException ioe) {
+				System.out.println(ioe.getMessage());
+			}
+		}
+	}
 
   public void eliminar_prestamo(int id_usuario, String titulo_libro) {
     int index = buscar_prestamo(id_usuario, titulo_libro);
