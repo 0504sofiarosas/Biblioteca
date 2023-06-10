@@ -593,9 +593,9 @@ public class Biblioteca implements Serializable {
 		}
 	}
 
-public int buscar_prestamo (int id_usuario, String titulo_libro) {
+public int buscar_prestamo (int id, String titulo_libro) {
 		for (int i = 0; i < prestamos.length; i++) {
-			if (prestamos[i] != null && prestamos[i].getTitulo().equals(titulo_libro) && prestamos[i].getId() == id_usuario) {
+			if (prestamos[i] != null && prestamos[i].getTitulo().equals(titulo_libro) && prestamos[i].getId() == id) {
 				return i;
 			}
 		}
@@ -603,8 +603,8 @@ public int buscar_prestamo (int id_usuario, String titulo_libro) {
 		return -1;
 	}
 
-		public void devolucion (int id_usuario, String titulo_libro) {
-		int index_usuario = buscar_usuario(id_usuario);
+		public void devolucion (int id, String titulo_libro) {
+		int index_usuario = buscar_usuario(id);
 		Scanner teclado = new Scanner(System.in);
 
 		if (index_usuario == -1) {
@@ -618,7 +618,7 @@ public int buscar_prestamo (int id_usuario, String titulo_libro) {
 			System.out.println("ERROR. Este libro no existe");
 			System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
 		} else {
-			int index_registro = buscar_prestamo(id_usuario, da_formato(titulo_libro));
+			int index_registro = buscar_prestamo(id, da_formato(titulo_libro));
 		if (index_registro == -1) {
 			System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
 			System.out.println("ERROR. No se encontró el registro del préstamo.");
