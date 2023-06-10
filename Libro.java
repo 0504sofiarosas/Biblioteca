@@ -13,6 +13,7 @@ public class Libro implements Serializable {
     private int no_paginas;
     private int id;
     private int no_ejemplares;
+    private int ejemplares_disp;
 
   /**
    * Construye un objeto Libro con todos sus atributos.
@@ -25,13 +26,14 @@ public class Libro implements Serializable {
    * @param no_ejemplares El número de ejemplares del libro. 
    */
 
-    public Libro (int id, String titulo, String autor, String editorial, int no_paginas,  int no_ejemplares) {
+    public Libro (int id, String titulo, String autor, String editorial, int no_paginas,  int no_ejemplares, int ejemplares_disp) {
     this.titulo = titulo;
     this.autor = autor;
     this.editorial = editorial;
     this.no_paginas = no_paginas;
     this.id = id;
     this.no_ejemplares = no_ejemplares;
+    this.ejemplares_disp = ejemplares_disp;
    }
 
    /**
@@ -92,16 +94,24 @@ public class Libro implements Serializable {
     this.no_ejemplares = no_ejemplares;
    }
 
+   public int detEjemplares_disp() {
+    return no_ejemplares;
+   }
+
+   public void setEjemplares_disp() {
+    this.ejemplares_disp = ejemplares_disp;
+   }
+
   // Reducir el numero de ejemplares por prestamo
 
-  public void reducir_ejemplares_prestamo(int no_ejemplares) {
-    this.no_ejemplares = no_ejemplares - 1;
+  public void reducir_ejemplares_prestamo() {
+    this.ejemplares_disp = ejemplares_disp - 1;
   }
 
   // Aumentar el numero de ejemplares por devolucion
 
-  public void aumentar_ejemplares_prestamo(int no_ejemplares) {
-    this.no_ejemplares = no_ejemplares + 1;
+  public void aumentar_ejemplares_devolucion() {
+    this.ejemplares_disp = ejemplares_disp + 1;
   }
    
    /**
@@ -115,4 +125,19 @@ public class Libro implements Serializable {
     System.out.println(String.format("\t\tId: %07d", id));
     System.out.println(String.format("\t\tEjemplares: %03d", no_ejemplares));
    }
+
+   // Muestra libros con existencias
+
+   public void reporte_existencias() {
+    System.out.println(String.format("%07d | %-50s | %-5s", id, titulo, no_ejemplares));
+   }
+
+   public void muestra_todos_libros() {
+    System.out.println(String.format("%07d | %-50s | %-30s | %-20s | %-5s | %-5s", id, titulo, autor, editorial, no_paginas, no_ejemplares));
+   }
+
+   public void reporte_disponibilidad() {
+    System.out.println(String.format("%07d | %-50s | %-5s", id, titulo, ejemplares_disp));
+   }
+
 }

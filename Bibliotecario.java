@@ -29,7 +29,7 @@ public class Bibliotecario implements Serializable{
         this.contrasena = contrasena;
         this.user = user;
     }
-    
+
     /**
      * Regresa el identificador interno del bibliotecario.
      * @return El id del bibliotecario. 

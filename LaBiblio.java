@@ -23,7 +23,7 @@ public class LaBiblio {
         
         File archivo = new File("labiblio.dat");
         if (archivo.exists()) {
-        c = c.cargar();
+           c = c.cargar();
         }
 
         // En otro caso, se entiende que es la primera vez que se ejecuta el programa
@@ -47,6 +47,7 @@ public class LaBiblio {
             switch (op) {
 
             case 0:
+
                 System.out.print("\n\nSeguro que quiere salir? (Y/N): ");
                 char exit = teclado.nextLine().toUpperCase().charAt(0);
                 if (exit == 'Y' || exit == 'S') {
@@ -62,11 +63,13 @@ public class LaBiblio {
             String nombre_usu = teclado.nextLine();
             System.out.println("Ingresa tu contrasena:");
             String contra_usu = teclado.nextLine();
+            
             if (c.verificar_contrasena_biblio(nombre_usu, contra_usu) == -1) {
                 System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
                 System.out.println("ERROR. Contrasena o Nombre de usuario incorrectos.");
                 System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
             } else {
+                
                 System.out.println("\n\nQue accion quieres realizar? \n");
                 System.out.println("  1. Agregar un nuevo libro");
                 System.out.println("  2. Dar de baja un libro");
@@ -74,8 +77,9 @@ public class LaBiblio {
                 System.out.println("  4. Reporte de disponibilidad");
                 System.out.println("  5. Reporte de prestamos");
                 System.out.println("  6. Lista de espera");
+                System.out.println("  7. Registrar un bibliotecario");
                 System.out.println("  0. Regresar al menu anterior\n\n");
-                System.out.print("Elige una opcion (0-6): ");
+                System.out.print("Elige una opcion (0-7): ");
 
                 op = Integer.parseInt(teclado.nextLine());
 
@@ -107,26 +111,41 @@ public class LaBiblio {
                         break;
 
                     case 3:
-                        c.muestra_todos_libros();
+                        c.reporte_existencias();
                         break;
 
                     case 4:
-                        System.out.print("\n\nIngresa el ID del libro:");
-                        id = Integer.parseInt(teclado.nextLine());
-                        //c.mostrar_usuario_con_libros();
+                        c.reporte_disponibilidad();
                         break;
 
                     case 5:
-                        //c.muestra_prestamo();
+                        c.reporte_prestamos();
                         break;
 
                     case 6:
                         break;
+
+                    case 7:
+                        c.agregar_bibliotecario();
+                        break;    
                 }
-                
-            }
+            
+            }    
+             
                 break;
+
             case 2:
+
+            System.out.println("Ingresa tu nombre de usuario:");
+            String user_biblio = teclado.nextLine();
+            System.out.println("Ingresa tu contraseña: ");
+            String contra_biblio = teclado.nextLine();
+
+            if (c.verificar_contrasena_usu(user_biblio, contra_biblio) == -1) {
+                System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+                System.out.println("ERROR. Contrasena o Nombre de usuario incorrectos.");
+                System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
+            } else {
                 System.out.println("\n\nQue accion quieres realizar? \n");
                 System.out.println("  1. Mostrar todos libros");
                 System.out.println("  2. Solicitar prestamo");
@@ -139,10 +158,12 @@ public class LaBiblio {
 
                 switch (op) {
                     case 1:
-                       //c.existencia_libros();
+                       c.muestra_todos_libros();
                         break;
                     case 2:
-
+                       System.out.println("Ingresa el Id del usuarioque solicita el prestamo:");
+                       int id_libro = teclado.nextInt();
+                       c.agregar_prestamo(id_libro);
                         break;
                     case 3:
 
@@ -154,11 +175,17 @@ public class LaBiblio {
                         op = -1;
                         break;
                 }
-                break;
+            }
+
+                    break;
+
             case 3:
                 c.agregar_usuario();
             }
-        }while (op != 0);
+
+
+
+        } while (op != 0);
     }
 
 }

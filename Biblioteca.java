@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 public class Biblioteca implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 	private Bibliotecario [] bibliotecarios;
 	private Libro [] libros;
 	private Usuario [] usuarios;
@@ -23,7 +23,7 @@ public class Biblioteca implements Serializable {
 		this.bibliotecarios = new Bibliotecario[100];
 		this.usuarios = new Usuario[100];
 		this.libros = new Libro[100];
-		this.prestamos = new Prestamo[3];
+		this.prestamos = new Prestamo[100];
 
 	}
 
@@ -51,7 +51,7 @@ public class Biblioteca implements Serializable {
 		ObjectOutputStream retor = null;
 
 		try {
-			pres = new FileOutputStream("biblio.dat", false);
+			pres = new FileOutputStream("labiblio.dat", false);
 			retor = new ObjectOutputStream (pres);
 
 			retor.writeObject(this);
@@ -81,7 +81,7 @@ public class Biblioteca implements Serializable {
 		Biblioteca b = null;
 
 		try {
-			pros = new FileInputStream("biblio.dat");
+			pros = new FileInputStream("labiblio.dat");
 			retiro = new ObjectInputStream(pros);
 
 			b = (Biblioteca) retiro.readObject();
@@ -198,7 +198,7 @@ public class Biblioteca implements Serializable {
 				System.out.println("Segundo apellido: ");
 				String segundo_apellido_biblio = da_formato(teclado.nextLine());
 				System.out.println("Nombre de usuario: ");
-				String user_biblio = da_formato(teclado.nextLine());
+				String user_biblio = teclado.nextLine();
 				System.out.println("Direccion: ");
 				String direccion_biblio = da_formato(teclado.nextLine());
 				System.out.println("Telefono: ");
@@ -206,7 +206,7 @@ public class Biblioteca implements Serializable {
 				System.out.println("Correo electronico: ");
 				String correo_biblio = da_formato(teclado.nextLine());
 				System.out.println("Ingresa tu contraseña:");
-				String contrasena_biblio = da_formato(teclado.nextLine());
+				String contrasena_biblio = teclado.nextLine();
 
 				Bibliotecario nuevo_bibliotecario = new Bibliotecario (genera_id(), nombre_biblio, primer_apellido_biblio, segundo_apellido_biblio, user_biblio, direccion_biblio, telefono_biblio, correo_biblio, contrasena_biblio);
 				bibliotecarios[index] = nuevo_bibliotecario;
@@ -247,7 +247,7 @@ public class Biblioteca implements Serializable {
 				System.out.println("Segundo apellido:");
 				String segundo_apellido_usuario = da_formato(teclado.nextLine());
 				System.out.println("Nombre de usuario:");
-				String user_usuario = da_formato(teclado.nextLine());
+				String user_usuario = teclado.nextLine();
 				System.out.println("Direccion:");
 				String direccion_usuario = da_formato(teclado.nextLine());
 				System.out.println("Telefono:");
@@ -255,11 +255,11 @@ public class Biblioteca implements Serializable {
 				System.out.println("Correo electronico:");
 				String correo_usuario = da_formato(teclado.nextLine());
 				System.out.println("Ingresa tu contraseña:");
-				String contrasena_usuario = da_formato(teclado.nextLine());
+				String contrasena_usuario = teclado.nextLine();
 
 				// Se crea el usuario
 
-				Usuario nuevo_usuario = new Usuario(genera_id(), nombre_usuario, primer_apellido_usuario, segundo_apellido_usuario, user_usuario, direccion_usuario, telefono_usuario, correo_usuario);
+				Usuario nuevo_usuario = new Usuario(genera_id(), nombre_usuario, primer_apellido_usuario, segundo_apellido_usuario, user_usuario, direccion_usuario, telefono_usuario, correo_usuario, contrasena_usuario);
 				usuarios[index] = nuevo_usuario;
 
 				System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
@@ -353,14 +353,31 @@ public class Biblioteca implements Serializable {
 	// Verificar contraseña de bibliotecario a partir de user
 
 	public int verificar_contrasena_biblio(String user_biblio, String contrasena_biblio) {
+		String user_prin = "MelaniMucino";
+		String contrasena_prin = "mel0104";
 		for (int i = 0; i < bibliotecarios.length; i++) {
-			if (bibliotecarios[i] != null && bibliotecarios[i].getContrasena() == contrasena_biblio && bibliotecarios[i].getUser() == user_biblio) {
+			if (user_biblio.equals(user_prin) && contrasena_biblio.equals(contrasena_prin)) {
+				return i;
+			} else if (bibliotecarios[i] != null && bibliotecarios[i].getContrasena().equals(contrasena_biblio) && bibliotecarios[i].getUser().equals(user_biblio)) {
 				return i;
 			}
 		}
 
 		return -1;
 	}
+
+	// Verificar contraseña de usuario 
+
+	public int verificar_contrasena_usu(String user_usuario, String contrasena_usuario) {
+		for (int i = 0; i < usuarios.length; i++) {
+			if (usuarios[i] != null && usuarios[i].getContrasena().equals(contrasena_usuario) && usuarios[i].getUser().equals(user_usuario)) {
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
 
 	// Elimina un usuario a partir de id
 
@@ -453,32 +470,34 @@ public class Biblioteca implements Serializable {
 			if (index == -1) {
 				System.out.println("ERROR. Ya no hay espacio para registrar este libro");
 			} else {
-				System.out.println("Ingresa la siguiente información:");
+				System.out.println("Ingresa la siguiente informacion:");
 				System.out.println("Titulo:");
 				String titulo_libro = da_formato(teclado.nextLine());
 				System.out.println("Autor: ");
 				String autor_libro = da_formato(teclado.nextLine());
 				System.out.println("Editorial: ");
 				String editorial_libro = da_formato(teclado.nextLine());
-				System.out.println("Numero de paginas(numero escrito):");
+				System.out.println("Numero de paginas:");
 			    int no_paginas_libro = teclado.nextInt();
-				System.out.println("Numero de ejemplares(numero escrito):");
+				System.out.println("Numero de ejemplares:");
 				int no_ejemplares_libro = teclado.nextInt();
+				int ejemplares_disp_libro = no_ejemplares_libro;
 
-				Libro nuevo_libro = new Libro(genera_id(), titulo_libro, autor_libro, editorial_libro, no_paginas_libro, no_ejemplares_libro);
+				Libro nuevo_libro = new Libro(genera_id(), titulo_libro, autor_libro, editorial_libro, no_paginas_libro, no_ejemplares_libro, ejemplares_disp_libro);
 				libros[index] = nuevo_libro;
 
 				System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
 				System.out.println("Registro de libro exitoso");
 				System.out.println(String.format("%050d", 0).replace("0", "-"));
 				nuevo_libro.muestra_libro();
-				System.out.println(String.format("%050\n\n", 0).replace("0", "-"));
+				System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
 				guardar();
 			}
 
 		} catch (Exception e) {
 			System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
 			System.out.println("ERROR. Ha ocurrido un error. Vuelve a intentarlo");
+			System.out.println(e.getMessage());
 			System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
 		}
 	}
@@ -490,7 +509,7 @@ public class Biblioteca implements Serializable {
 		System.out.println(String.format("%0165d", 0).replace("0", "-"));
 		for (int i = 0; i < libros.length; i++) {
 			if (libros[i] != null) {
-				libros[i].muestra_libro();
+				libros[i].muestra_todos_libros();
 				System.out.println(String.format("%0165d", 0).replace("0", "-"));
 			}
 		}
@@ -555,6 +574,20 @@ public class Biblioteca implements Serializable {
 		}
 	}
 
+	// Modificar numero de ejemplares disponibles por préstamo por id
+
+	public void reducir_ejemplares(int titulo_libro) {
+		int index = buscar_libro(titulo_libro);
+		if (index == -1) {
+			System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+			System.out.println("ERROR. Este libro no existe");
+			System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
+		} else {
+			libros[index].reducir_ejemplares_prestamo();
+			guardar();
+		}
+	}
+
 
 	// Registrar un prestamo por id
 
@@ -565,23 +598,31 @@ public class Biblioteca implements Serializable {
 			System.out.println("ERROR. El usuario no existe");
 			System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
 		} else {
-			Usuario s = usuarios[index_usuario];
-			Scanner teclado = new Scanner(System.in);
-			System.out.println("Ingresa el libro que se desea tomar prestamo");
-			String titulo_libro = da_formato(teclado.nextLine());
-			int index_libro = buscar_libro(titulo_libro);
-			if (index_libro == -1) {
-				System.out.println("ERROR. Este libro no existe");
+			int index_prestamo = usuarios[index_usuario].prestamo_espacio_usuario();
+			if (index_prestamo == -1) {
+				System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+				System.out.println("ERROR. Ya no quedan mas prestamos disponibles para este usuario");
+				System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
 			} else {
-				LocalDateTime prestamo = LocalDateTime.now();
-				LocalDateTime devolucion = prestamo.plusDays(5);
-				LocalDateTime prorroga = devolucion.plusDays(3);
-				System.out.println("Fecha de prestamo:" + prestamo);
-				System.out.println("Fecha de devolucion:" + devolucion);
-				System.out.println("Tiempo de prorroga:" + prorroga);
-
-
-
+				Usuario s = usuarios[index_usuario];
+			    Scanner teclado = new Scanner(System.in);
+			    System.out.println("Ingresa el titulo del libro que se desea tomar prestamo");
+			    String tit_libro = da_formato(teclado.nextLine());
+			    int index_libro = buscar_libro(tit_libro);
+			    if (index_libro == -1) {
+				    System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+				    System.out.println("ERROR. Este libro no existe");
+				    System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
+			    } else {
+				    LocalDateTime prestamo = LocalDateTime.now();
+				    LocalDateTime devolucion = prestamo.plusDays(5);
+				    int id_libro = libros[index_libro].getId();
+				    String titulo_libro = libros[index_libro].getTitulo();
+				    String user_usu = usuarios[index_usuario].getUser();
+				    libros[index_libro].reducir_ejemplares_prestamo();
+				    usuarios[index_usuario].registrar_prestamo(id_libro, titulo_libro, user_usu);
+				    guardar();
+			    }
 			}
 		}
 	}
@@ -589,14 +630,43 @@ public class Biblioteca implements Serializable {
 	// Reporte de existencia 
 
 	public void reporte_existencias() {
-		System.out.println(String.format("%0165d", 0).replace("0", "-"));
-		System.out.println(String.format("\n%-7s | %-50s | %-3s", "Id", "Titulo", "Numero de ejemplares"));
-		System.out.println(String.format("%0165d", 0).replace("0", "-"));
+		System.out.println(String.format("%090d", 0).replace("0", "-"));
+        System.out.println(String.format("\n%-7s | %-50s | %-3s", "Id", "Titulo", "Numero de ejemplares"));
+        System.out.println(String.format("%090d", 0).replace("0", "-"));
 		for (int i = 0; i < libros.length; i++) {
 			if (libros[i] != null) {
-				libros[i].muestra_libro();
-				System.out.println(String.format("%0165d", 0).replace("0", "-"));
+				libros[i].reporte_existencias();
+				System.out.println(String.format("%090d", 0).replace("0", "-"));
 			}
 		}
 	}
+
+	// Reporte de disponibilidad
+
+	public void reporte_disponibilidad() {
+		System.out.println(String.format("%090d", 0).replace("0", "-"));
+		System.out.println(String.format("\n%-7s | %-50s | %-3s", "Id", "Titulo", "Libros disponibles"));
+		System.out.println(String.format("%090d", 0).replace("0", "-"));
+		for (int i = 0; i < libros.length; i++) {
+			if (libros[i] != null) {
+				libros[i].reporte_disponibilidad();
+				System.out.println(String.format("%090d", 0).replace("0", "-"));
+			}
+		}
+	}
+
+	// Reporte de prestamos
+
+	public void reporte_prestamos() {
+		System.out.println(String.format("%090d", 0).replace("0", "-"));
+		System.out.println(String.format("\n%-7s | %-20s | %-50s | %-10s | %-10s", "Id libro", "Usuario", "Titulo", "Fecha de prestamo", "Fecha de devolucion"));
+		System.out.println(String.format("%090d", 0).replace("0", "-"));
+		for (int i = 0; i < usuarios.length; i++) {
+			if (usuarios[i] != null) {
+				usuarios[i].reporte_prestamos();
+				System.out.println(String.format("%090d", 0).replace("0", "-"));
+			}
+		}
+	}
+	
 }

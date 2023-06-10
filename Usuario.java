@@ -1,4 +1,12 @@
 import java.io.Serializable;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Scanner;
+import java.time.LocalDateTime;
 
 /**
  * Clase para alamacenar la información de los usuarios.
@@ -30,7 +38,7 @@ public class Usuario implements Serializable {
    * @param telefono Teléfono para comunicarse con el usuario.
    * @param correo_electronico Correo electrónico del usuario.
    */
-  public Usuario(int id_usuario, String nombre, String primer_apellido, String segundo_apellido, String user, String direccion, String telefono, String correo_electronico){
+  public Usuario(int id_usuario, String nombre, String primer_apellido, String segundo_apellido, String user, String direccion, String telefono, String correo_electronico, String contrasena){
 
     this.id = id;
     this.nombre = nombre;
@@ -214,6 +222,8 @@ public class Usuario implements Serializable {
     }
   }
 
+
+
   public void muestra_usuario_sin_libros() {
     System.out.println(String.format("Id:        %07d", id));
     System.out.println(String.format("Nombre:    %s", nombre + " " + primer_apellido + " " + segundo_apellido));
@@ -223,4 +233,106 @@ public class Usuario implements Serializable {
     System.out.println(String.format("Correo:    %s", correo_electronico));
     
   }
+
+  public int prestamo_espacio_usuario() {
+    for (int i = 0; i < prestamos.length; i++) {
+      if (prestamos[i] == null) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
+
+
+  public int libro_espacio_usuario() {
+    for (int i = 0; i < libros.length; i++) {
+      if (libros[i] == null) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
+  private void guardar() {
+    FileOutputStream pres = null;
+    ObjectOutputStream retor = null;
+
+    try {
+      pres = new FileOutputStream("labiblio.dat", false);
+      retor = new ObjectOutputStream (pres);
+
+      retor.writeObject(this);
+    } catch (FileNotFoundException fnfe) {
+      System.out.println(fnfe.getMessage());
+    } catch (IOException ioe) {
+      System.out.println(ioe.getMessage());
+    } finally {
+      try {
+        if (pres != null) {
+          pres.close();
+        }
+        if (retor != null) {
+          retor.close();
+        }
+      } catch (IOException ioe) {
+        System.out.println(ioe.getMessage());
+      }
+    }
+  }  
+
+  public void registrar_prestamo(int id, String titulo, String usuario) {
+    Scanner teclado = new Scanner(System.in);
+    try {
+      int index = prestamo_espacio_usuario();
+      if (index == -1) {
+        System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+        System.out.println("ERROR. No hay prestamos disponibles");
+        System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
+      } else {
+        LocalDateTime prestamo = LocalDateTime.now();
+        LocalDateTime devolucion = prestamo.plusDays(5);
+
+        Prestamo nuevo_prestamo = new Prestamo(usuario, id, titulo, prestamo, devolucion);
+        prestamos[index] = nuevo_prestamo;
+
+        System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+        System.out.println("Prestamo registrado");
+        System.out.println(String.format("%050d", 0).replace("0", "-"));
+        nuevo_prestamo.muestra_prestamo();
+        System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
+        guardar();
+      }
+    } catch (Exception e) {
+      System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+      System.out.println("ERROR. Ha ocurrido un error. Vuelve a intentarlo");
+      System.out.println(String.format("%050\n\n", 0).replace("0", "-"));
+    }
+  }
+
+  /*public void reporte_prestamos() {
+    System.out.println(String.format("\n%050d", 0).replace("0","-"));
+    for (int i = 0; i < prestamos.length; i++) {
+      if (prestamos[i] != null) {
+        prestamos[i].reporte_prestamos();
+      }
+    }
+  }*/
+
+  public void reporte_prestamos() {
+    for (int i = 0; i < prestamos.length; i++) {
+      if (prestamos[i] != null) {
+        String usuario = prestamos[i].getUsuario();
+        int id = prestamos[i].getId();
+        String titulo = prestamos[i].getTitulo();
+        LocalDateTime fecha_prestamo = prestamos[i].getFecha_prestamo();
+        LocalDateTime fecha_devolucion = prestamos[i].getFecha_devolucion();
+        System.out.println(String.format("%07d | %-20s | %-50s | %-10s | %-10s", id, usuario, titulo, fecha_prestamo, fecha_devolucion));
+      }
+    }
+  }
+
+ 
 }
