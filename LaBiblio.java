@@ -76,10 +76,12 @@ public class LaBiblio {
                 System.out.println("  3. Reporte de existencias");
                 System.out.println("  4. Reporte de disponibilidad");
                 System.out.println("  5. Reporte de prestamos");
-                System.out.println("  6. Lista de espera");
-                System.out.println("  7. Registrar un bibliotecario");
+                System.out.println("  6. Agregar usuario a la lista de espera");
+                System.out.println("  7. Eliminar usuario");
+                System.out.println("  8. Reporte de la lista de espera");
+                System.out.println("  9. Registrar un bibliotecario");
                 System.out.println("  0. Regresar al menu anterior\n\n");
-                System.out.print("Elige una opcion (0-7): ");
+                System.out.print("Elige una opcion (0-9): ");
 
                 op = Integer.parseInt(teclado.nextLine());
 
@@ -123,9 +125,17 @@ public class LaBiblio {
                         break;
 
                     case 6:
+                        System.out.print("\n\nIngresa el ID del usuario:");
+                        id = Integer.parseInt(teclado.nextLine());
+                        c.agregar_lista_espera(id);
+                        break;
+                    case 7:
+
+                    case 8:
+                        c.reporte_lista_espera();
                         break;
 
-                    case 7:
+                    case 9:
                         c.agregar_bibliotecario();
                         break;    
                 }
@@ -138,7 +148,7 @@ public class LaBiblio {
 
             System.out.println("Ingresa tu nombre de usuario:");
             String user_biblio = teclado.nextLine();
-            System.out.println("Ingresa tu contraseña: ");
+            System.out.println("Ingresa tu contrasena: ");
             String contra_biblio = teclado.nextLine();
 
             if (c.verificar_contrasena_usu(user_biblio, contra_biblio) == -1) {
@@ -161,16 +171,16 @@ public class LaBiblio {
                        c.muestra_todos_libros();
                         break;
                     case 2:
-                       System.out.println("Ingresa el Id del usuarioque solicita el prestamo:");
+                       System.out.println("Ingresa el Id del usuario que solicita el prestamo:");
                        int id_libro = teclado.nextInt();
                        c.agregar_prestamo(id_libro);
                         break;
                     case 3:
-                        System.out.println("Ingrese el ID del usuario.");
+                        /*System.out.println("Ingrese el ID del usuario.");
                         int id_usuario = teclado.nextInt();
                         System.out.println("Ingrese el titulo del libro a devolver.");
                         String titulo_libro = teclado.next().toUpperCase();
-                        c.devolucion(id_usuario, titulo_libro);
+                        c.devolucion(id_usuario, titulo_libro);*/
                         break;
                     case 4:
 

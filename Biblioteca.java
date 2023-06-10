@@ -43,7 +43,6 @@ public class Biblioteca implements Serializable {
 		return prestamos;
 	}
 
-
 	// Método para guardar los cambios 
 
 	private void guardar() {
@@ -205,7 +204,7 @@ public class Biblioteca implements Serializable {
 				String telefono_biblio = da_formato(teclado.nextLine());
 				System.out.println("Correo electronico: ");
 				String correo_biblio = da_formato(teclado.nextLine());
-				System.out.println("Ingresa tu contraseña:");
+				System.out.println("Ingresa tu contrasena:");
 				String contrasena_biblio = teclado.nextLine();
 
 				Bibliotecario nuevo_bibliotecario = new Bibliotecario (genera_id(), nombre_biblio, primer_apellido_biblio, segundo_apellido_biblio, user_biblio, direccion_biblio, telefono_biblio, correo_biblio, contrasena_biblio);
@@ -254,7 +253,7 @@ public class Biblioteca implements Serializable {
 				String telefono_usuario = da_formato(teclado.nextLine());
 				System.out.println("Correo electronico:");
 				String correo_usuario = da_formato(teclado.nextLine());
-				System.out.println("Ingresa tu contraseña:");
+				System.out.println("Ingresa tu contrasena:");
 				String contrasena_usuario = teclado.nextLine();
 
 				// Se crea el usuario
@@ -593,7 +592,7 @@ public class Biblioteca implements Serializable {
 		}
 	}
 
-		public void devolucion (int id_usuario, String titulo_libro) {
+		/*public void devolucion (int id_usuario, String titulo_libro) {
 		int index_usuario = buscar_usuario(id_usuario);
 		Scanner teclado = new Scanner(System.in);
 
@@ -614,15 +613,15 @@ public class Biblioteca implements Serializable {
 			System.out.println("ERROR. No se encontro el registro del prestamo.");
 			System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
 		} else {
-			//Usuario s = usuarios[index_usuario];
-			//int index_prestamo = s.buscar_prestamo(usuarios[index_usuario].getUser(), da_formato(titulo_libro));
+			Usuario s = usuarios[index_usuario];
+			int index_prestamo = usuarios[index_usuario].buscar_prestamo(usuarios[index_usuario].getUser(), da_formato(titulo_libro));
 			    
 			    LocalDate fecha_registro = prestamos[index_registro].getFecha_devolucion();
 			    LocalDate fecha_devolucion = LocalDate.now();
-			    if ((fecha_registro.isEqual(fecha_devolucion) || fecha_devolucion.isBefore(fecha_registro)) && prestamos[index_registro] != null) {
+			    if ((fecha_registro.isEqual(fecha_devolucion) || fecha_devolucion.isBefore(fecha_registro)) && prestamos[index_prestamo] != null) {
 			    	libros[index_libro].aumentar_ejemplares_devolucion();
 			    	//prestamos[index_prestamo].eliminar_prestamo();
-			    	prestamos[index_registro] = null;
+			    	prestamos[index_prestamo] = null;
 
 			    	System.out.println("Se ha completado la devolucion exitosamente.");
 
@@ -631,7 +630,67 @@ public class Biblioteca implements Serializable {
 			}	    
 		}
 	}
-}
+}*/
+
+	//Agregar usuario a la lista de espera 
+
+	public void agregar_lista_espera(int id) {
+
+		int index_usuario = buscar_usuario(id);
+		String libro_deseado;
+		Scanner teclado = new Scanner(System.in);
+
+		if (index_usuario  == -1) {
+			System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+      System.out.println("ERROR: El usuario no existe.");
+      System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
+		} else {
+			Usuario s = usuarios[index_usuario];
+		    System.out.println("Ingresa el titulo del libro que desea el usuario");
+		    String tit_libro = da_formato(teclado.nextLine());
+				int index_libro = buscar_libro(tit_libro);
+				if(index_libro == -1) {
+				System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+      	System.out.println("ERROR: El libro no existe.");
+      	System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
+				} else {
+				System.out.println("Se ha registrado exitosamente!!");
+				guardar();
+			}
+		}
+	}
+
+	//Eliminar usuario de la lista de espera
+
+	 /*public void elimina_lista_espera(int id) {
+	 	int index_usuario = busca_usuario(id);
+
+	 	if (index_usuario == -1) {
+	 		System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+      System.out.println("ERROR: El propietario no existe.");
+      System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
+	 	}
+	 }*/
+
+	/**
+   * Muesta a los usuarios en la lista de espera.
+   */
+
+	public void reporte_lista_espera() {
+
+		// Encabezados de la tabla.
+    System.out.println(String.format("\n%-7s | %-20s | %-20s | %-10s ",
+            "Id", "Nombre", "E-mail", "Telefono"));
+    // Línea que sirve de separador.
+    System.out.println(String.format("%0156d", 0).replace("0", "-"));
+    // Recorre el arreglo de usuarios y los va mostrando.
+    for (int i = 0; i < usuarios.length; i++) {
+    	if (usuarios[i] != null) {
+    		usuarios[i].reporte_lista_espera();
+        System.out.println(String.format("%0156d", 0).replace("0", "-"));
+    	}
+    }
+	}
 
 	// Reporte de existencia 
 

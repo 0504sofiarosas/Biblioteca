@@ -327,7 +327,7 @@ public class Usuario implements Serializable {
 
 public int buscar_prestamo (String usuario, String titulo_libro) {
     for (int i = 0; i < prestamos.length; i++) {
-      if (prestamos[i] != null && prestamos[i].getTitulo().equals(titulo_libro) && prestamos[i].getUsuario().equals(usuario)) {
+      if (prestamos[i] != null && prestamos[i].getTitulo().equals(titulo_libro) && prestamos[i].getUsuario().equals(user)) {
         return i;
       }
     }
@@ -335,5 +335,14 @@ public int buscar_prestamo (String usuario, String titulo_libro) {
     return -1;
   }
 
- 
+  public void reporte_lista_espera() {
+    System.out.println(String.format("%07d | %-20s | %-20s | %-10s ", id, nombre, correo_electronico, telefono));
+    int count = 1;
+    for(int i = 0; i < libros.length; i++) {
+      if(libros[i] != null) {
+        System.out.println("Libro(s) " + count++ + ": ");
+        libros[i].muestra_libro();
+      }
+    }
+  }
 }

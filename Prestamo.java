@@ -112,17 +112,15 @@ public class Prestamo implements Serializable {
 		}
 	}
 
-
-
   /**
    * Muestra la información del préstamo.
    */
   public void muestra_prestamo() {
-    System.out.println(String.format("\n\nUsuario:      %s", usuario));
+    System.out.println(String.format("\t\tUsuario:               %s", usuario));
     System.out.println(String.format("\t\tId del libro:          %07d", id));
-    System.out.println(String.format("\t\tTitulo del libro:     %s", titulo));
-    System.out.println(String.format("\t\tFecha del prestamo:       %s", fecha_prestamo));
-    System.out.println(String.format("\t\tFecha de la devolución:      %s", fecha_devolucion));
+    System.out.println(String.format("\t\tTitulo del libro:      %s", titulo));
+    System.out.println(String.format("\t\tFecha del prestamo:    %s", fecha_prestamo));
+    System.out.println(String.format("\t\tFecha de la devolucion:%s", fecha_devolucion));
     
   }
 
