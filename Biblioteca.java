@@ -481,7 +481,7 @@ public class Biblioteca implements Serializable {
 	// Muestra todos los libros
 
 	public void muestra_todos_libros() {
-		System.out.println(String.format("\n%-7s | %-50s | %-30s | %-20s | %-5s | %-3s", "Id", "Titulo", "Autor", "Editorial", "Numero de paginas", "Numero de ejemplares"));
+		System.out.println(String.format("\n%-7s | %-40s | %-30s | %-20s | %-5s | %-5s", "Id", "Titulo", "Autor", "Editorial", "Numero de paginas", "Numero de ejemplares"));
 		System.out.println(String.format("%0156d", 0).replace("0", "-"));
 		for (int i = 0; i < libros.length; i++) {
 			if (libros[i] != null) {
