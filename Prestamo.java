@@ -134,7 +134,7 @@ public class Prestamo implements Serializable {
     System.out.println(String.format("\n\nUsuario:      %s", usuario));
     System.out.println(String.format("\t\tId del libro:          %07d", id));
     System.out.println(String.format("\t\tTitulo del libro:     %s", titulo));
-    System.out.println(String.format("\t\tFecha del prestamo:       %s", fecha_prestamo));
+    System.out.println(String.format("\t\tFecha de solicitud de la prorroga:       %s", fecha_prestamo));
     System.out.println(String.format("\t\tFecha de la devolucion:      %s", fecha_devolucion));
     
   }
