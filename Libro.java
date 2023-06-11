@@ -94,7 +94,7 @@ public class Libro implements Serializable {
     this.no_ejemplares = no_ejemplares;
    }
 
-   public int detEjemplares_disp() {
+   public int getEjemplares_disp() {
     return no_ejemplares;
    }
 
@@ -133,7 +133,7 @@ public class Libro implements Serializable {
    }
 
    public void muestra_todos_libros() {
-    System.out.println(String.format("%07d | %-40s | %-30s | %-20s | %-17s | %-5s", id, titulo, autor, editorial, no_paginas, no_ejemplares));
+    System.out.println(String.format("%07d | %-50s | %-30s | %-20s | %-5s | %-5s", id, titulo, autor, editorial, no_paginas, no_ejemplares));
    }
 
    public void reporte_disponibilidad() {

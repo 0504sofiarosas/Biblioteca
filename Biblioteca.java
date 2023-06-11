@@ -481,7 +481,7 @@ public class Biblioteca implements Serializable {
 	// Muestra todos los libros
 
 	public void muestra_todos_libros() {
-		System.out.println(String.format("\n%-7s | %-40s | %-30s | %-20s | %-5s | %-5s", "Id", "Titulo", "Autor", "Editorial", "Numero de paginas", "Numero de ejemplares"));
+		System.out.println(String.format("\n%-7s | %-50s | %-30s | %-20s | %-5s | %-3s", "Id", "Titulo", "Autor", "Editorial", "Numero de paginas", "Numero de ejemplares"));
 		System.out.println(String.format("%0156d", 0).replace("0", "-"));
 		for (int i = 0; i < libros.length; i++) {
 			if (libros[i] != null) {
@@ -590,14 +590,25 @@ public class Biblioteca implements Serializable {
 				    System.out.println("ERROR. Este libro no existe");
 				    System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
 			    } else {
-				    LocalDate prestamo = LocalDate.now();
-				    LocalDate devolucion = prestamo.plusDays(5);
-				    int id_libro = libros[index_libro].getId();
-				    String titulo_libro = libros[index_libro].getTitulo();
-				    String user_usu = usuarios[index_usuario].getUser();
-				    libros[index_libro].reducir_ejemplares_prestamo();
-				    usuarios[index_usuario].registrar_prestamo(id_libro, titulo_libro, user_usu);
-				    guardar();
+			    	int ejem_disp = libros[index_libro].getEjemplares_disp();
+			    	if (ejem_disp == 0) {
+			    		System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+			    		System.out.println("ERROR. Ya no quedan ejemplares disponibles de este libro");
+			    		System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
+			    	} else if (ejem_disp < 0) {
+			    		System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+			    		System.out.println("ERROR. Ya no quedan ejemplares disponibles de este libro");
+			    		System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));	
+			    	} else {
+			    		LocalDate prestamo = LocalDate.now();
+				        LocalDate devolucion = prestamo.plusDays(5);
+				        int id_libro = libros[index_libro].getId();
+				        String titulo_libro = libros[index_libro].getTitulo();
+				        String user_usu = usuarios[index_usuario].getUser();
+				        libros[index_libro].reducir_ejemplares_prestamo();
+				        usuarios[index_usuario].registrar_prestamo(id_libro, titulo_libro, user_usu);
+				        guardar();
+			    	}
 			    }
 			}
 		}
