@@ -234,7 +234,7 @@ public Prestamo[] getProrrogas() {
     System.out.println(String.format("Id:        %07d", id));
     System.out.println(String.format("Nombre:    %s", nombre + " " + primer_apellido + " " + segundo_apellido));
     System.out.println(String.format("Nombre de usuario:  %s", user));
-    System.out.println(String.format("Dirección: %s", direccion));
+    System.out.println(String.format("Direccion: %s", direccion));
     System.out.println(String.format("Tel. Prin: %s", telefono));
     System.out.println(String.format("Correo:    %s", correo_electronico));
     
