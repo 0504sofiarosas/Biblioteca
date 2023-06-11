@@ -24,6 +24,7 @@ public class Usuario implements Serializable {
   private String correo_electronico;
   private Libro[] libros;
   private Prestamo[] prestamos;
+  private Prestamo [] prorrogas;
   private String contrasena;
   private String user;
 
@@ -49,6 +50,7 @@ public class Usuario implements Serializable {
     this.correo_electronico = correo_electronico;
     this.libros = new Libro[3];
     this.prestamos = new Prestamo[3];
+    this.prorrogas = new Prestamo[3];
     this.contrasena = contrasena;
     this.user = user;
   }
@@ -169,6 +171,10 @@ public class Usuario implements Serializable {
     return prestamos;
   }
 
+public Prestamo[] getProrrogas() {
+    return prorrogas;
+  }
+
   public String getContrasena() {
     return contrasena;
   }
@@ -244,7 +250,15 @@ public class Usuario implements Serializable {
     return -1;
   }
 
+public int prorroga_espacio_usuario() {
+    for (int i = 0; i < prorrogas.length; i++) {
+      if (prorrogas[i] == null) {
+        return i;
+      }
+    }
 
+    return -1;
+  }
 
   public int libro_espacio_usuario() {
     for (int i = 0; i < libros.length; i++) {
@@ -312,6 +326,37 @@ public class Usuario implements Serializable {
     }
   }
 
+public void registrar_prorroga(int id, String titulo, String usuario) {
+    Scanner teclado = new Scanner(System.in);
+    try {
+      int index = prorroga_espacio_usuario();
+      if (index == -1) {
+        System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+        System.out.println("ERROR. No hay prorrogas disponibles");
+        System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
+      } else {
+          System.out.println("Ingresa el numero de dias");
+          int no_dias_prorroga = teclado.nextInt();
+          LocalDate fecha = LocalDate.now();
+          LocalDate prorroga = fecha.plusDays(no_dias_prorroga);
+
+        Prestamo nueva_prorroga = new Prestamo(usuario, id, titulo, fecha, prorroga);
+        prorrogas[index] = nueva_prorroga;
+
+        System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+        System.out.println("Extension en el prestamo registrado");
+        System.out.println(String.format("%050d", 0).replace("0", "-"));
+        nueva_prorroga.muestra_prorroga();
+        System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
+        guardar();
+      }
+    } catch (Exception e) {
+      System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+      System.out.println("ERROR. Ha ocurrido un error. Vuelve a intentarlo");
+      System.out.println(String.format("%050\n\n", 0).replace("0", "-"));
+    }
+  }
+
   public void reporte_prestamos() {
     for (int i = 0; i < prestamos.length; i++) {
       if (prestamos[i] != null) {
@@ -327,12 +372,26 @@ public class Usuario implements Serializable {
 
 public int buscar_prestamo (String usuario, String titulo_libro) {
     for (int i = 0; i < prestamos.length; i++) {
-      if (prestamos[i] != null && prestamos[i].getTitulo().equals(titulo_libro) && prestamos[i].getUsuario().equals(user)) {
-        return i;
+      if (prestamos[i] != null && prestamos[i].getTitulo().equals(titulo_libro)) {
+        if (prestamos[i] != null && prestamos[i].getUsuario().equals(usuario)){
+          return i;
+        }
       }
     }
 
     return -1;
+  }
+
+  public void eliminar_prestamo(String usuario, String titulo_libro) {
+    int index = buscar_prestamo(usuario, titulo_libro);
+    if (index == -1) {
+      System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+      System.out.println("ERROR. Este prestamo no existe");
+      System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+    } else {
+      prestamos[index] = null;
+      guardar();
+    }
   }
 
   public void reporte_lista_espera() {
@@ -345,4 +404,20 @@ public int buscar_prestamo (String usuario, String titulo_libro) {
       }
     }
   }
+
+  /*public LocalDate buscar_fecha_devolucion(String usuario, String titulo_libro) {
+    int index = buscar_prestamo(usuario, titulo_libro);
+    if (index == -1) {
+      System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+      System.out.println("ERROR. Este prestamo no existe");
+      System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+    } else {
+      LocalDate fecha_registro = prestamos[index].getFecha_devolucion();
+      return fecha_registro;
+    }
+
+    return prestamos[index].getFecha_devolucion();
+  }*/
+
+ 
 }

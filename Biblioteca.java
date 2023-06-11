@@ -43,6 +43,7 @@ public class Biblioteca implements Serializable {
 		return prestamos;
 	}
 
+
 	// Método para guardar los cambios 
 
 	private void guardar() {
@@ -280,11 +281,11 @@ public class Biblioteca implements Serializable {
 
 	public void muestra_usuario_sin_libros() {
 		System.out.println(String.format("\n%-7s | %-40s | %-40s | %-10s | %-40s | %-10s", "Id", "Nombre Completo", "Direccion", "Telefono", "E-mail", "Libros"));
-		System.out.println(String.format("%0165d", 0).replace("0","-"));
+		System.out.println(String.format("%0156d", 0).replace("0","-"));
 		for (int i = 0; i < usuarios.length; i++) {
 			if (usuarios[i] != null) {
 				usuarios[i].muestra_usuario_sin_libros();
-				System.out.println(String.format("%0165d", 0).replace("0", "-"));
+				System.out.println(String.format("%0156d", 0).replace("0", "-"));
 			}
 		}
 	}
@@ -306,6 +307,16 @@ public class Biblioteca implements Serializable {
 	public int buscar_usuario(int id_usuario) {
 		for (int i = 0; i < usuarios.length; i++) {
 			if (usuarios[i] != null && usuarios[i].getId() == id_usuario) {
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	public int buscar_usuario(String usuario) {
+		for (int i = 0; i < usuarios.length; i++) {
+			if (usuarios[i] != null && usuarios[i].getUser().equals(usuario)) {
 				return i;
 			}
 		}
@@ -471,11 +482,11 @@ public class Biblioteca implements Serializable {
 
 	public void muestra_todos_libros() {
 		System.out.println(String.format("\n%-7s | %-50s | %-30s | %-20s | %-5s | %-3s", "Id", "Titulo", "Autor", "Editorial", "Numero de paginas", "Numero de ejemplares"));
-		System.out.println(String.format("%0165d", 0).replace("0", "-"));
+		System.out.println(String.format("%0156d", 0).replace("0", "-"));
 		for (int i = 0; i < libros.length; i++) {
 			if (libros[i] != null) {
 				libros[i].muestra_todos_libros();
-				System.out.println(String.format("%0165d", 0).replace("0", "-"));
+				System.out.println(String.format("%0156d", 0).replace("0", "-"));
 			}
 		}
 	}
@@ -592,7 +603,7 @@ public class Biblioteca implements Serializable {
 		}
 	}
 
-		/*public void devolucion (int id_usuario, String titulo_libro) {
+		public void devolucion (int id_usuario, String titulo_libro) {
 		int index_usuario = buscar_usuario(id_usuario);
 		Scanner teclado = new Scanner(System.in);
 
@@ -607,34 +618,61 @@ public class Biblioteca implements Serializable {
 			System.out.println("ERROR. Este libro no existe");
 			System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
 		} else {
-			int index_registro = usuarios[index_usuario].buscar_prestamo(usuarios[index_usuario].getUser(), da_formato(titulo_libro));
+			String nom_usu = usuarios[index_usuario].getUser();
+			int index_registro = usuarios[index_usuario].buscar_prestamo(nom_usu, da_formato(titulo_libro));
 		if (index_registro == -1) {
 			System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
 			System.out.println("ERROR. No se encontro el registro del prestamo.");
 			System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
 		} else {
-			Usuario s = usuarios[index_usuario];
-			int index_prestamo = usuarios[index_usuario].buscar_prestamo(usuarios[index_usuario].getUser(), da_formato(titulo_libro));
+			//Usuario s = usuarios[index_usuario];
+			//int index_prestamo = s.buscar_prestamo(usuarios[index_usuario].getUser(), da_formato(titulo_libro));
 			    
-			    LocalDate fecha_registro = prestamos[index_registro].getFecha_devolucion();
+			    /*LocalDate fecha_registro = usuarios[index_usuario].buscar_fecha_devolucion(nom_usu, da_formato(titulo_libro));
 			    LocalDate fecha_devolucion = LocalDate.now();
-			    if ((fecha_registro.isEqual(fecha_devolucion) || fecha_devolucion.isBefore(fecha_registro)) && prestamos[index_prestamo] != null) {
+			    if ((fecha_registro.isEqual(fecha_devolucion) || fecha_devolucion.isBefore(fecha_registro)) && prestamos[index_registro] != null) {*/
 			    	libros[index_libro].aumentar_ejemplares_devolucion();
 			    	//prestamos[index_prestamo].eliminar_prestamo();
-			    	prestamos[index_prestamo] = null;
-
+			    	usuarios[index_usuario].eliminar_prestamo(nom_usu, da_formato(titulo_libro));
+			    	System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
 			    	System.out.println("Se ha completado la devolucion exitosamente.");
-
+			    	System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
 			    	guardar();
-			    }
+			    //}
 			}	    
 		}
 	}
-}*/
+}
 
-	//Agregar usuario a la lista de espera 
+public void prorroga (String usuario) {
+		int index_usuario = buscar_usuario(usuario);
+		if (index_usuario == -1) {
+			System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+			System.out.println("ERROR. El usuario no existe");
+			System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
+		} else {
+				Usuario s = usuarios[index_usuario];
+			    Scanner teclado = new Scanner(System.in);
+			    System.out.println("Ingresa el titulo del libro para hacer una extension en el prestamo");
+			    String tit_libro = da_formato(teclado.nextLine());
+			    int index_libro = buscar_libro(tit_libro);
+			    if (index_libro == -1) {
+				    System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
+				    System.out.println("ERROR. Este libro no existe");
+				    System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
+			    } else {
+				    int id_libro = libros[index_libro].getId();
+				    String titulo_libro = libros[index_libro].getTitulo();
+				    String user_usu = usuarios[index_usuario].getUser();
+				    usuarios[index_usuario].registrar_prorroga(id_libro, titulo_libro, user_usu);
+				    guardar();
+			    }
+			}
+		}
 
-	public void agregar_lista_espera(int id) {
+		// Agregar usuario a la lista de espera.
+
+		public void agregar_lista_espera(int id) {
 
 		int index_usuario = buscar_usuario(id);
 		String libro_deseado;
@@ -660,20 +698,8 @@ public class Biblioteca implements Serializable {
 		}
 	}
 
-	//Eliminar usuario de la lista de espera
-
-	 /*public void elimina_lista_espera(int id) {
-	 	int index_usuario = busca_usuario(id);
-
-	 	if (index_usuario == -1) {
-	 		System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
-      System.out.println("ERROR: El propietario no existe.");
-      System.out.println(String.format("%050d\n\n", 0).replace("0", "-"));
-	 	}
-	 }*/
-
 	/**
-   * Muesta a los usuarios en la lista de espera.
+   * Muestra a los usuarios en la lista de espera.
    */
 
 	public void reporte_lista_espera() {
@@ -733,25 +759,5 @@ public class Biblioteca implements Serializable {
 			}
 		}
 	}
-
-	/*public void eliminar_prestamo(int id_usuario, String titulo_libro) {
-	int index_usu = buscar_usuario(id_usuario);	
-    int index = usuarios[index_usu].buscar_prestamo(id_usuario, titulo_libro);
-    
-    if (index == -1) {
-      System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
-      System.out.println("ERROR. No se encontró el registro del préstamo.");
-      System.out.println(String.format("%050\n\n", 0).replace("0", "-"));
-    } else {
-      int index_usuario = buscar_usuario(id_usuario);
-      int index_prestamo = usuarios[index_usuario].buscar_prestamo(id_usuario, da_formato(titulo_libro));
-      prestamos[index_prestamo] = null;
-      System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
-      System.out.println("Tienes disponible el espacio para un prestamo");
-      System.out.println(String.format("\n\n%050d", 0).replace("0", "-"));
-
-      guardar();
-    }
-  }*/
 	
 }

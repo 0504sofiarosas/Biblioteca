@@ -77,11 +77,10 @@ public class LaBiblio {
                 System.out.println("  4. Reporte de disponibilidad");
                 System.out.println("  5. Reporte de prestamos");
                 System.out.println("  6. Agregar usuario a la lista de espera");
-                System.out.println("  7. Eliminar usuario");
-                System.out.println("  8. Reporte de la lista de espera");
-                System.out.println("  9. Registrar un bibliotecario");
+                System.out.println("  7. Reporte de la lista de espera");
+                System.out.println("  8. Registrar un bibliotecario");
                 System.out.println("  0. Regresar al menu anterior\n\n");
-                System.out.print("Elige una opcion (0-9): ");
+                System.out.print("Elige una opcion (0-8): ");
 
                 op = Integer.parseInt(teclado.nextLine());
 
@@ -129,13 +128,12 @@ public class LaBiblio {
                         id = Integer.parseInt(teclado.nextLine());
                         c.agregar_lista_espera(id);
                         break;
-                    case 7:
 
-                    case 8:
+                    case 7:
                         c.reporte_lista_espera();
                         break;
 
-                    case 9:
+                    case 8:
                         c.agregar_bibliotecario();
                         break;    
                 }
@@ -176,14 +174,16 @@ public class LaBiblio {
                        c.agregar_prestamo(id_libro);
                         break;
                     case 3:
-                        /*System.out.println("Ingrese el ID del usuario.");
+                        System.out.println("Ingrese el ID del usuario.");
                         int id_usuario = teclado.nextInt();
                         System.out.println("Ingrese el titulo del libro a devolver.");
                         String titulo_libro = teclado.next().toUpperCase();
-                        c.devolucion(id_usuario, titulo_libro);*/
+                        c.devolucion(id_usuario, titulo_libro);
                         break;
                     case 4:
-
+                        System.out.println("Ingresa el nombre de usuario.");
+                        String user = teclado.next();
+                        c.prorroga(user);
                         break;
                     case 0:
                         op = -1;
